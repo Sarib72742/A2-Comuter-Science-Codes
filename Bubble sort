@@ -1,0 +1,31 @@
+upper=0
+count=0
+indata=""
+noentry=0
+array=""
+
+def bubblesort(array,upper):
+  main=0
+  inner=0
+  for main in range(upper-1, 0, -1):
+    issorted=True
+    for inner in range(main):
+        if array[inner]>array[inner+1]:
+          temp = array[inner]
+          array[inner]=array[inner+1]
+          array[inner+1]=temp
+          issorted=False
+    if issorted==True: break
+
+
+
+array=[]
+noentry=int(input("Please enter the numbers of terms you want to enter: "))
+for count in range(noentry):
+   indata=int(input())
+   array.append(indata)
+
+bubblesort(array,noentry)
+
+for count in range(noentry):
+    print(array[count]) 
