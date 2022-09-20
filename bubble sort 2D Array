@@ -1,11 +1,11 @@
-a=b=c=0
+a=b=c=""
 row=0
 col=0
 issorted=False
 indata=0
 
 def bubblesort2d(array,row,col,indata):
-    global a,b,c
+    global a,b,c,issorted
     while not issorted:
       issorted=True
       for row in range(indata-1):
@@ -18,15 +18,20 @@ def bubblesort2d(array,row,col,indata):
            array[row][1]=array[row+1][1]
            array[row][2]=array[row+1][2]
 
+           array[row+1][0]=a
+           array[row+1][1]=b
+           array[row+1][2]=c
+
            issorted=False
 
-
-array=[]
 indata=int(input("please enter the no of row you want to enter: "))
+array=[["" for col in range(3)] for row in range (indata)]
 for row in range(indata):
    for col in range(3):
       array[row][col] = input()
-bublesort2d(array,row,col)
+
+bubblesort2d(array,indata,3,indata)
+
 for row in range(indata):
    for col in range(3):
      print(array[row][col])
