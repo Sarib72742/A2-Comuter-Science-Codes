@@ -1,0 +1,27 @@
+myarr=["a","c","d","g","j","k","t","s"]
+isfound=False
+upperb=7
+lowerb=0
+value=""
+found=False
+value=input("Enter the character you want to search: ")
+
+
+while not found and not isfound:
+    mid=(lowerb+upperb)//2
+    if myarr[mid]:
+        isfound=True
+    else:
+        if lowerb>=upperb:
+            found=True
+        else:
+             if myarr[mid]<value:
+                lowerb=mid+1
+             else:
+                upperb=mid-1
+
+
+if isfound==True:
+    print("result found at:" , mid+1)
+else:
+     print("not found ")
