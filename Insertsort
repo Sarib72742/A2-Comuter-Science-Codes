@@ -1,0 +1,32 @@
+lowerb=0
+upperb=0
+entry=0
+indata=""
+count=0
+firstp=0
+second=0
+inner=0
+temp=""
+counti=0
+
+def insertsort(myarr,lowerb,upperb):
+  global firstp,secondp,inner,temp
+  for firstp in range(lowerb+1,upperb):
+    for secondp in range(lowerb,firstp,-1):
+        if myarr[firstp] < myarr[secondp]:
+            temp=firstp
+            for inner in range (firstp,secondp+1):
+                myarr[inner]=myarr[inner-1]
+            myarr[secondp]=temp
+            break
+                    
+myarr=[]
+entry=int(input("please enter how many element you want to enter: "))
+for count in range(entry):
+    indata=input()
+    myarr.append(indata)
+    
+insertsort(myarr,0,entry)
+
+for count in range(entry):
+  print(myarr[count])
