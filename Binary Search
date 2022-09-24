@@ -9,7 +9,7 @@ value=input("Enter the character you want to search: ")
 
 while not found and not isfound:
     mid=(lowerb+upperb)//2
-    if myarr[mid]:
+    if myarr[mid]==value:
         isfound=True
     else:
         if lowerb>=upperb:
