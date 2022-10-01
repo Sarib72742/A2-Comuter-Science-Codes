@@ -23,5 +23,5 @@ while not found and not isfound:
 
 if isfound==True:
     print("result found at:" , mid+1)
-else:
+if found==True:
      print("not found ")
