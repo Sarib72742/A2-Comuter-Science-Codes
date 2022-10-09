@@ -1,0 +1,82 @@
+nullptr = -1
+rootptr = -1
+tree=[]
+
+
+def initiallise():
+    global listnode, rootptr, freenodep, nullptr, tree
+    rootptr=nullptr
+    freenodep=0
+    for index in range(10):
+        tree.append(listnode("", index+1, nullptr))
+    tree[9].leftptr=nullptr
+
+def addnode(newitem):
+    global listnode, rootptr, freenodep, nullptr, tree
+    previousnodeptr=thisptr=currnode=0
+    isadded=False
+    if freenodep!=nullptr:
+        currnode=freenodep
+        tree[currnode].data=newitem
+        freenodep=tree[freenodep].leftptr
+        tree[currnode].leftptr=nullptr
+        if rootptr == nullptr:
+             rootptr==nullptr
+             rootptr=currnode
+        else:
+            thisptr=rootptr     
+            while thisptr!= nullptr:
+                previousnodeptr = thisptr
+
+                if tree[currnode].data > newitem:
+                    isadded = True
+                else:
+                    isadded = False
+                    thisptr = tree[thisptr].rightptr
+
+            if isadded:
+                tree[previousnodeptr].leftptr = currnode
+            else:
+                tree[previousnodeptr].rightptr = currnode
+    else:
+        print("Overflow - No space for more data") 
+
+def findnode(searchitem):
+    global listnode,rootptr,freenodep,nullptr,tree
+    thisnodeptr=rootptr
+    while (thisnodeptr!=nullptr) and (tree[thisnodeptr].data!=searchitem):
+      if tree[thisnodeptr].data>searchitem:
+          thisnodeptr=tree[thisnodeptr].leftptr
+      else:
+          thisnodeptr=tree[thisnodeptr].rightptr
+
+      return thisnodeptr
+
+def GetOption():
+    print("1: Add data\n2: Find data\n3: End program")
+    Choice = int(input("Enter your choice: "))
+    return Choice
+    
+class listnode:
+    def __init__(self, data, leftptr, rightptr):
+      self.leftptr=leftptr
+      self.data=data
+      self.rightptr=rightptr   
+    
+initiallise()
+Choice = GetOption()
+
+while Choice !=3:
+    if Choice == 1:
+      data = input("Enter the value: ")
+      addnode(data)
+    elif Choice == 2:
+        data = intut("enter the value: ")
+        thisnodeptr = findnode(data)
+        if thisnodeptr == nullptr:
+          print("Value not found")
+        else:
+            print("value found at :", thisnodeptr)
+        print(rootptr, freenodep)
+        for i in range(10):
+            print(i, tree[i].leftptr, tree[i].data, tree[i].rightptr)
