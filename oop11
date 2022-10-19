@@ -1,0 +1,9 @@
+class AnimalClass:
+
+    def constructor(self)
+     randomX = randint(0,39)
+     randomY = randint(0,39)
+
+     self.__Grid[ramdomX][randamY] = A
+     animalscore = 0
+
