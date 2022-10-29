@@ -1,94 +1,95 @@
-nullptr = -1
-rootptr=freenodep = -1
-tree=[]
-
+ nullptr = -1
+rootptr = freeptr =0
+Tree = []
 
 def initiallise():
-    global listnode, rootptr, freenodep, nullptr, tree
-    rootptr=nullptr
-    freenodep=0
-    for index in range(10):
-        tree.append(listnode("", index+1, nullptr))
-    tree[9].leftptr=nullptr
+    global Treenode, nullptr, rootptr, freeptr, Tree
+    rootptr = nullptr
+    freeptr=0
+    for index in range(5):
+        Tree.append(Treenode("", index+1, nullptr))
+    Tree[4].leftptr = nullptr
 
-def addnode(newitem):
-    global listnode, rootptr, freenodep, nullptr, tree
-    previousnodeptr=thisptr=currnode=0
-    isadded=False
-    if freenodep!=nullptr:
-        currnode=freenodep
-        tree[currnode].data=newitem
-        freenodep=tree[freenodep].leftptr
-        tree[currnode].leftptr=nullptr
+def insertnode(newitem):
+     global Treenode, nullptr, rootptr, freeptr, Tree
+     previousnode = thisnode = newnode = 0
+     Turnedleft = False
+
+     if freeptr == nullptr:
+         print("overflow no space ")
+     else:
+        newnode =freeptr
+        Tree[newnode].Data = newitem
+        freeptr = Tree[freeptr].leftptr
+        Tree[newnode].leftptr = -1
+
         if rootptr == nullptr:
-             rootptr=currnode
+            rootptr = newnode
         else:
-            thisptr=rootptr
-            while thisptr!= nullptr:
-                previousnodeptr = thisptr
-
-                if tree[currnode].data > newitem:
-                    isadded = True
+            thisnode=rootptr
+            while thisnode != nullptr:
+                previousnode = thisnode
+                if Tree[thisnode].Data > newitem:
+                    turnedleft = True
+                    thisnode = Tree[thisnode].leftptr
                 else:
-                    isadded = False
-                    thisptr = tree[thisptr].rightptr
+                     turnedleft = False
+                     thisnode = Tree[thisnode].rightptr
 
-            if isadded:
-                tree[previousnodeptr].leftptr = currnode
+            if turnedleft:
+                Tree[previousnode].leftptr = newnode
             else:
-                tree[previousnodeptr].rightptr = currnode
-    else:
-        print("Overflow  No space for more data")
+                Tree[previousnode].rightptr = newnode
 
 def findnode(searchitem):
-    global listnode,rootptr,freenodep,nullptr,tree
-    thisnodeptr=rootptr
-    while (thisnodeptr!=nullptr) and (tree[thisnodeptr].data!=searchitem):
-      if tree[thisnodeptr].data>searchitem:
-          thisnodeptr=tree[thisnodeptr].leftptr
-      else:
-          thisnodeptr=tree[thisnodeptr].rightptr
+    global Treenode, nullptr, rootptr, freeptr, Tree
+    thisnodeptr = rootptr
+    while (thisnodeptr!= nullptr and Tree[thisnodeptr].Data != searchitem):
+        if Tree[thisnodeptr].Data > searchitem:
+            thisnodeptr = Tree[thisnodeptr].leftptr
+        else:
+            thisnodeptr = Tree[thisnodeptr].rightptr
 
-      return thisnodeptr
+    return thisnodeptr
 
-def TraverseTree(rootptr):
-    global listnode, freenodep, nullptr, tree
+def traverse(rootptr):
+    global Treenode, nullptr, freeptr, Tree
     if rootptr != nullptr:
-        TraverseTree(tree[rootptr].leftptr)
-        print(tree[rootptr].data)
-        TraverseTree(tree[rootptr].rightptr)
+        traverse(Tree[rootptr].leftptr)
+        print(Tree[rootptr].Data)
+        traverse(Tree[rootptr].rightptr)
 
+def getoption():
+    print("1: Add data\n2: Find data\n3: Traverse Tree\n4: end")
+    choice = int(input("enter choice "))
+    return choice
 
-def Getoption():
-    print("1: Add data\n2: Find data\n3: Traverse tree\n4: End program")
-    Choice = int(input("Enter your choice: "))
-    return Choice
+class Treenode:
+    def __init__(self, Data, leftptr, rightptr):
+        self.Data = Data
+        self.leftptr = leftptr
+        self.rightptr = rightptr
 
-class listnode:
-    def __init__(self, data, leftptr, rightptr):
-      self.leftptr=leftptr
-      self.data=data
-      self.rightptr=rightptr
 
 initiallise()
-Choice = Getoption()
+choice = getoption()
 
-while Choice !=4:
-    if Choice == 1:
-      data = input("Enter the value: ")
-      addnode(data)
-      TraverseTree(rootptr)
-    elif Choice == 2:
-        data = intut("enter the value: ")
-        thisnodeptr = findnode(data)
+while choice != 4:
+    if choice == 1:
+        Data = input("Enter the value: ")
+        insertnode(Data)
+        traverse(rootptr)
+    elif choice == 2:
+        Data = input("Enter search value: ")
+        thisnodeptr = findnode(Data)
         if thisnodeptr == nullptr:
-          print("Value not found")
+            print("Value not found")
         else:
-            print("value found at :", thisnodeptr)
-        print(rootptr, freenodep)
-        for i in range(10):
-            print(i, tree[i].leftptr, tree[i].data, tree[i].rightptr)
-    elif Choice==3:
-            TraverseTree(rootptr)
-    choice=Getoption()
+            print("value found at:", thisnodeptr)
+        for i in range(5):
+            print(i, Tree[i].leftptr, Tree[i].Data, Tree[i].rightptr)
+    elif choice == 3:
+        traverse(rootptr)
+    choice = getoption()
+
  
