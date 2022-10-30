@@ -1,0 +1,118 @@
+class listnode:
+    def __init__(self):
+        self.data = ""
+        self.ptr = 0
+
+nullptr = -1
+startptr = 0
+freeptr = 0
+list = [listnode() for i in range(6)]
+
+def insertnode(newitem):
+    global nullptr, freeptr, startptr
+    
+    if freeptr != nullptr:
+        newnodeptr = freeptr
+        list[newnodeptr].data = newitem
+        freeptr = list[freeptr].ptr
+        
+        thisnodeptr = startptr
+        priviousnodeptr = nullptr
+        while (thisnodeptr != nullptr and list[thisnodeptr].data , newitem):
+            previousnodeptr = thisnodeptr
+            thisnodeptr = list[thisnodeptr].ptr
+        
+        if priviousnodeptr == nullptr:
+            list[newnodeptr].ptr = startptr
+            startptr = newnodeptr
+        
+        else:
+            list[priviousnodeptr].ptr = newnodeptr
+            list[newnodeptr].ptr = thisnodeptr
+    
+    else: 
+        print("overflow no space")
+        
+        
+def deletenode(itemdelete):
+    global nullptr, freeptr, startptr
+    if startptr == nullptr:
+        print("underflow, list is empty")
+    else:
+        thisnodeptr = startptr
+        while (thisnodeptr != nullptr and list[thisnodeptr].data != deleteitem):
+            priviousnodeptr = thisnodeptr
+            thisnodeptr = list[thisnodeptr].ptr
+        
+        if thisnodeptr != nullptr:
+            if thisnodeptr == startptr:
+                startptr = list[startptr].ptr
+            else:
+                list[priviousnodeptr].ptr = list[thisnodeptr].ptr
+                
+        list[thisnodeptr].ptr = freeptr
+        freeptr = thisnodeptr
+
+def findnode(searchitem): 
+    global nullptr, freeptr, startptr
+    currnode = startptr
+    while (currnode != nullptr and list[currnode].data != searchitem):
+        currnode = list[currnode].ptr
+    return currnode
+
+def initiallise():
+    global nullptr, freeptr, startptr
+    startptr = nullptr
+    freeptr = 0
+    for index in range(6):
+        list[index].ptr = index + 1
+    list[5] = nullptr
+
+def outputnodes():
+    global nullptr, freeptr, startptr
+    currnode = startptr
+    if currnode == nullptr:
+        print("no item in list")
+    
+    while currnode != nullptr:
+        print(currnode, list[currnode].data)
+        currnode = list[currnode].ptr
+    
+def GetOption():
+    print("Linked List Operations:")
+    print("1: Insert a node")
+    print("2: Delete a node")
+    print("3: Find a node")
+    print("4: Output list")
+    print("5: End program")
+    Choice = int(input("Enter your choice: "))
+    return Choice
+
+# main program
+initiallise()
+Choice = GetOption()
+while Choice != 5:
+    if Choice == 1:
+        data = input("Enter the value to insert in LL node: ")
+        insertnode(data)
+        outputnodes()
+    elif Choice == 2:
+        Data = input("Enter the value to delete from LL node: ")
+        deletenode(Data)
+        outputnodes()
+    elif Choice == 3:
+        Data = input("Enter the node value to look for in LL: ")
+        currnode= findnode(Data)
+        if currnode == nullptr:
+            print(Data, "couldn't be found.")
+        else:
+            print(Data, "found at: ", currnode)
+    elif Choice == 4:
+        print("Printing list in order.")
+        outputnodes()
+        print("Printing array depiction")
+        print("StartPointer= ", startptr, "FreeListPtr= ", freeptr)
+        for i in range(9):
+            print(i, List[i].data, List[i].Ptr)
+    Choice = GetOption()    
+    
