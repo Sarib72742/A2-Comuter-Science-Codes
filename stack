@@ -1,0 +1,76 @@
+stack = []
+tos = freeptr = 0
+nullptr = -1
+
+def initiallise():
+    global freeptr, tos, nullptr
+    tos = nullptr
+    freeptr = 0
+    for i in range(6):
+        stack.append(Node("", i+1))
+    stack[5].pointer = nullptr
+
+def push(newitem):
+    global freeptr, tos, nullptr
+    if freeptr != nullptr:
+        thisnodeptr = freeptr
+        stack[thisnodeptr].data = newitem
+        freeptr = stack[freeptr].pointer
+        stack[thisnodeptr].pointer = tos
+        tos = thisnodeptr
+    else:
+        print("no space")
+
+def pop():
+    global freeptr, tos, nullptr
+    if tos != nullptr:
+        value = stack[tos].data
+        thisnodeptr = tos
+        tos = stack[thisnodeptr].pointer
+        stack[thisnodeptr].pointer = freeptr
+        freeptr = thisnodeptr
+
+    else:
+        if tos == nullptr:
+            print("no value list is empty")
+            value = ""
+    return value
+
+def outputall():
+    global freeptr, tos, nullptr
+    currptr = tos
+    if tos == nullptr:
+        print("no data in list")
+    while currptr != nullptr:
+        print(currptr, stack[currptr].data)
+        currptr = stack[currptr].pointer
+    
+
+class Node:
+    def __init__(self, data, pointer):
+        self.data = data
+        self.pointer = pointer
+
+def GetOption():
+    print("1: Push a value\n2: Pop a value\n3: Output all nodes\n4: End")
+    choice = int(input("Enter a choice: "))
+    return choice
+
+initiallise()
+choice = GetOption()
+while choice != 4:
+    if choice == 1:
+        data = input("enter a value")
+        push(data)
+        outputall()
+
+    if choice == 2:
+        value = pop()
+        print(value)
+
+    if choice == 3:
+        outputall()
+        print(tos ,freeptr)
+        for i in range(5):
+            print(i, stack[i].data, stack[i].pointer)
+    choice = GetOption()        
