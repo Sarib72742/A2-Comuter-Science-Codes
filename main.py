@@ -1,95 +1,66 @@
-nullptr = -1
-freeptr = rootptr = 0
-tree =[]
+class stacklist():
+    def __init__(self):
+        self.data = ""
+        self.pointer = 0
+
+freeptr = tos = baseptr = 0
+stack =[stacklist() for i in range(5)]
 
 def initiallise():
-    global treenode, tree, nullptr, freeptr, rootptr
-    rootptr = nullptr
+    global freeptr, tos, stack, stacklist
     freeptr = 0
+    tos = -1
     for index in range(5):
-        tree.append(treenode(index+1, "", nullptr))
-    tree[4].leftptr = nullptr
+        stack[index].pointer = index +1
+    stack[4].pointer = -1
 
-def insertnode(newitem):
-    global treenode, tree, nullptr, freeptr, rootptr
-    prenode = newnode = thisnode = 0
-    turnedleft = False
-
-    if freeptr == nullptr:
-        print("overflow: no space left")
+def push(value):
+    global freeptr, tos, stack, stacklist
+    if freeptr == -1:
+        print("no space avaliable")
     else:
         newnode = freeptr
-        tree[newnode].data = newitem
-        freeptr = tree[freeptr].leftptr
-        tree[newnode].leftptr = nullptr
+        stack[newnode].data = value
+        freeptr = stack[freeptr].pointer
+        stack[newnode].pointer = tos
+        tos = newnode
 
-        if rootptr == nullptr:
-            rootptr = newnode
+def pop():
+    global freeptr, tos, stack, stacklist
+    if tos == -1:
+        print("no data exist")
+    else:
+        value = stack[tos].data
+        stack[tos].pointer = freeptr
+        stack[tos].data = None
+        freeptr = tos
+        tos = tos-1
+    return value
 
-        else:
-            thisnode = rootptr
-            while thisnode != nullptr:
-                prenode = thisnode
-                if tree[thisnode].data > newitem:
-                    turnleft = True
-                    thisnode = tree[thisnode].leftptr
-                else:
-                    turnleft = False
-                    thisnode = tree[thisnode].rightptr
+def post_order_traversal(tos):
+    if tos is not None:
+        post_order_traversal(stack[tos].pointer)
+        print(stack[tos].data)
 
-            if turnleft == True:
-                tree[prenode].leftptr = newnode
-            else:
-                tree[prenode].righttptr = newnode
-
-def findnode(searchitem):
-    global treenode, tree, nullptr, freeptr, rootptr
-    thisnode = rootptr
-    while (thisnode != nullptr and tree[thisnode].data != searchitem):
-        if tree[thisnode].data > searchitem:
-            thisnode = tree[thisnode].leftptr
-        else:
-            thisnode = tree[thisnode].rightptr
-    return thisnode
-
-def traverse(Root):
-    global treenode, tree, nullptr, freeptr, rootptr
-    if Root != nullptr:
-        traverse(tree[Root].leftptr)
-        print(tree[Root].data)
-        traverse(tree[Root].rightptr)
-
-def getoption():
-    print("1: Add Data\n2: Find Node\n3: Traverse\n4: End")
-    choice = int(input("Enter choice"))
-    return choice
-
-class treenode():
-    def __init__(self, leftptr, data, rightptr):
-        self.leftptr = leftptr
-        self.data = data
-        self.rightptr = rightptr
+def outputstack():
+    global freeptr, tos, stack, stacklist
+    for i in range(5):
+        print(i, stack[i].data, stack[i].pointer)
 
 initiallise()
-choice = getoption()
-while choice  != 4:
+print("1:push\n2:pop\n3:output\n4:End")
+choice = int(input("please enter your choice"))
+while choice != 4:
     if choice == 1:
-        Data = input("Enter data: ")
-        insertnode(Data)
-        traverse(rootptr)
+        data = input("enter value")
+        push(data)
+        post_order_traversal(tos)
     elif choice == 2:
-        Data = input("Enter search data: ")
-        thisptr = findnode(Data)
-        if thisptr == nullptr:
-            print("value not found...")
-        else:
-            print("value found at ", thisptr)
-        for i in range(5):
-            print(i, tree[i].leftptr, tree[i].data, tree[i].rightptr)
-    elif choice  == 3:
-        traverse(rootptr)
-    choice = getoption()
+        value = pop()
+        print("value pop is", value)
+    elif choice == 3:
+        outputstack()
 
-
+    choice = int(input("please enter your choice"))
 
 
