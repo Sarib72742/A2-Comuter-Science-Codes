@@ -1,58 +1,46 @@
-rptr = fptr = 0
-queue = []
-ub = 4
-qlen = 0
-qfull = 5
+baseptr = topofstack = 0
+stack = []
 
 def initiallise():
-    global rptr, fptr, queue
-    rptr = -1
-    fptr = 0
-    queue = [None for i in range (0, 5)]
+    global baseptr, topofstack, stack
+    topofstack = 0
+    baseptr = -1
+    stack = [None for i in range(0,5)]
 
-def enqueue(value):
-    global rptr, fptr, queue, ub, qlen, qfull
-    if qlen < qfull:
-        if rptr < ub:
-            rptr += 1
-        else:
-            rptr = 0
-        queue[rptr] = value
-        qlen = qlen + 1
+def push (value):
+    global baseptr, topofstack, stack
+    if topofstack < 5:
+        stack[topofstack] = value
+        topofstack +=1
     else:
-        print("overflow no space")
+        print("overflow")
 
-def dequeue():
-    global rptr, fptr, queue, ub, qlen
-    if qlen == 0:
-        print("under flow no data in queue")
+def pop():
+    global baseptr, topofstack, stack
+    if topofstack == baseptr + 1:
+        print("underflow stack is empty")
     else:
-        value = queue[fptr]
-        queue[fptr] = None
-        if fptr == ub:
-            fptr = 0
-        else:
-            fptr +=1
-        qlen = qlen - 1
-        return value
+        topofstack -= 1
+        value = stack[topofstack]
+        stack[topofstack] = None
+    return value
 
-def outputqueue():
-    global rptr, fptr, queue, ub, qlen
-    print("Front pointer = ", fptr, "Rare pointer = ", rptr)
+def outputstack():
+    global baseptr, topofstack, stack
     for i in range(5):
-        print(i, queue[i])
+        print(i, stack[i])
 
 initiallise()
-print("1:enqueue\n2:dequeue\n3:output\n4:End")
+print("1:push\n2:pop\n3:output\n4:End")
 choice = int(input("please enter your choice"))
 while choice != 4:
     if choice == 1:
         data = input("enter value")
-        enqueue(data)
+        push(data)
     elif choice == 2:
-        value = dequeue()
+        value = pop()
         print("value pop is", value)
     elif choice == 3:
-        outputqueue()
+        outputstack()
 
     choice = int(input("please enter your choice"))
