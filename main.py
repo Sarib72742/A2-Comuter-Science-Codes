@@ -1,66 +1,58 @@
-class stacklist():
-    def __init__(self):
-        self.data = ""
-        self.pointer = 0
-
-freeptr = tos = baseptr = 0
-stack =[stacklist() for i in range(5)]
+rptr = fptr = 0
+queue = []
+ub = 4
+qlen = 0
+qfull = 5
 
 def initiallise():
-    global freeptr, tos, stack, stacklist
-    freeptr = 0
-    tos = -1
-    for index in range(5):
-        stack[index].pointer = index +1
-    stack[4].pointer = -1
+    global rptr, fptr, queue
+    rptr = -1
+    fptr = 0
+    queue = [None for i in range (0, 5)]
 
-def push(value):
-    global freeptr, tos, stack, stacklist
-    if freeptr == -1:
-        print("no space avaliable")
+def enqueue(value):
+    global rptr, fptr, queue, ub, qlen, qfull
+    if qlen < qfull:
+        if rptr < ub:
+            rptr += 1
+        else:
+            rptr = 0
+        queue[rptr] = value
+        qlen = qlen + 1
     else:
-        newnode = freeptr
-        stack[newnode].data = value
-        freeptr = stack[freeptr].pointer
-        stack[newnode].pointer = tos
-        tos = newnode
+        print("overflow no space")
 
-def pop():
-    global freeptr, tos, stack, stacklist
-    if tos == -1:
-        print("no data exist")
+def dequeue():
+    global rptr, fptr, queue, ub, qlen
+    if qlen == 0:
+        print("under flow no data in queue")
     else:
-        value = stack[tos].data
-        stack[tos].pointer = freeptr
-        stack[tos].data = None
-        freeptr = tos
-        tos = tos-1
-    return value
+        value = queue[fptr]
+        queue[fptr] = None
+        if fptr == ub:
+            fptr = 0
+        else:
+            fptr +=1
+        qlen = qlen - 1
+        return value
 
-def post_order_traversal(tos):
-    if tos is not None:
-        post_order_traversal(stack[tos].pointer)
-        print(stack[tos].data)
-
-def outputstack():
-    global freeptr, tos, stack, stacklist
+def outputqueue():
+    global rptr, fptr, queue, ub, qlen
+    print("Front pointer = ", fptr, "Rare pointer = ", rptr)
     for i in range(5):
-        print(i, stack[i].data, stack[i].pointer)
+        print(i, queue[i])
 
 initiallise()
-print("1:push\n2:pop\n3:output\n4:End")
+print("1:enqueue\n2:dequeue\n3:output\n4:End")
 choice = int(input("please enter your choice"))
 while choice != 4:
     if choice == 1:
         data = input("enter value")
-        push(data)
-        post_order_traversal(tos)
+        enqueue(data)
     elif choice == 2:
-        value = pop()
+        value = dequeue()
         print("value pop is", value)
     elif choice == 3:
-        outputstack()
+        outputqueue()
 
     choice = int(input("please enter your choice"))
-
-
